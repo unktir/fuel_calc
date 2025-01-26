@@ -25,4 +25,4 @@ deploy:
     - echo "Deploying application..."
     - docker-compose up -d
   only:
-    - main
+    - main 
