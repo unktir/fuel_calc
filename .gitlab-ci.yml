@@ -1,49 +1,21 @@
 image: docker:latest
 
 services:
-  - docker:dind
+  - name: docker:dind
+    alias: docker
 
 variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
 
 stages:
   - build
   - test
   - deploy
 
-build:
-  stage: build
-  script:
-    - echo "Building Docker images..."
-    - docker-compose build
-
-test:
-  stage: test
-  script:
-    - echo "Running tests..."
-    - docker-compose up -d
-    - docker-compose exec backend python -m pytest
-
-deploy:
-  stage: deploy
-  script:
-    - echo "Deploying application..."
-    - docker-compose up -d
-  only:
-    - mainimage: docker:latest
-
-services:
-  - docker:dind
-
-variables:
-  DOCKER_HOST: tcp://docker:2375
-  DOCKER_DRIVER: overlay2
-
-stages:
-  - build
-  - test
-  - deploy
+before_script:
+  - docker info
 
 build:
   stage: build
