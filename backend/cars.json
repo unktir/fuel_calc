@@ -1,0 +1,122 @@
+[
+    {
+        "name": "Lada Vesta",
+        "fuel_consumption": 6.7,
+        "engine_type": "Бензиновый",
+        "tank_capacity": 55,
+        "manufacturer": "Lada",
+        "year": 2018
+    },
+    {
+        "name": "Lada Priora",
+        "fuel_consumption": 8.0,
+        "engine_type": "Бензиновый",
+        "tank_capacity": 50,
+        "manufacturer": "Lada",
+        "year": 2012
+    },
+    {
+        "name": "Жигули",
+        "fuel_consumption": 9.5,
+        "engine_type": "Бензиновый",
+        "tank_capacity": 40,
+        "manufacturer": "Жигули",
+        "year": 1985
+    },
+    {
+        "name": "Lada Granta",
+        "fuel_consumption": 6.3,
+        "engine_type": "Бензиновый",
+        "tank_capacity": 50,
+        "manufacturer": "Lada",
+        "year": 2015
+    },
+    {
+        "name": "Volkswagen Polo",
+        "fuel_consumption": 5.6,
+        "engine_type": "Бензиновый",
+        "tank_capacity": 45,
+        "manufacturer": "Volkswagen",
+        "year": 2020
+    },
+    {
+        "name": "Kia Rio",
+        "fuel_consumption": 6.0,
+        "engine_type": "Бензиновый",
+        "tank_capacity": 50,
+        "manufacturer": "Kia",
+        "year": 2018
+    },
+    {
+        "name": "Hyundai Solaris",
+        "fuel_consumption": 5.9,
+        "engine_type": "Бензиновый",
+        "tank_capacity": 50,
+        "manufacturer": "Hyundai",
+        "year": 2021
+    },
+    {
+        "name": "Mazda 6",
+        "fuel_consumption": 7.2,
+        "engine_type": "Бензиновый",
+        "tank_capacity": 62,
+        "manufacturer": "Mazda",
+        "year": 2019
+    },
+    {
+        "name": "Mitsubishi Lancer",
+        "fuel_consumption": 6.8,
+        "engine_type": "Бензиновый",
+        "tank_capacity": 50,
+        "manufacturer": "Mitsubishi",
+        "year": 2017
+    },
+    {
+        "name": "Kia Ceed",
+        "fuel_consumption": 6.1,
+        "engine_type": "Бензиновый",
+        "tank_capacity": 50,
+        "manufacturer": "Kia",
+        "year": 2020
+    },
+    {
+        "name": "Opel Astra",
+        "fuel_consumption": 5.7,
+        "engine_type": "Бензиновый",
+        "tank_capacity": 48,
+        "manufacturer": "Opel",
+        "year": 2018
+    },
+    {
+        "name": "BMW M5 F90",
+        "fuel_consumption": 11.3,
+        "engine_type": "Бензиновый",
+        "tank_capacity": 68,
+        "manufacturer": "BMW",
+        "year": 2019
+    },
+    {
+        "name": "BMW X5",
+        "fuel_consumption": 10.0,
+        "engine_type": "Бензиновый",
+        "tank_capacity": 85,
+        "manufacturer": "BMW",
+        "year": 2022
+    },
+    {
+        "name": "Volkswagen Tuareg",
+        "fuel_consumption": 9.0,
+        "engine_type": "Бензиновый",
+        "tank_capacity": 75,
+        "manufacturer": "Volkswagen",
+        "year": 2021
+    },
+    {
+        "name": "Toyota Corolla",
+        "fuel_consumption": 6.3,
+        "engine_type": "Бензиновый",
+        "tank_capacity": 50,
+        "manufacturer": "Toyota",
+        "year": 2021
+    }
+]
