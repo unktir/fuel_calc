@@ -14,7 +14,7 @@ build_frontend:
   script:
     - echo "Сборка frontend контейнера..."
     - docker build -t $FRONTEND_IMAGE:$IMAGE_TAG ./frontend
-    - docker tag $FRONTEND_IMAGE:$IMAGE_TAG $HARBOR_URL/$HARBOR_PROJECT/$FRONTEND_IMAGE:$IMAGE_TAG
+    - docker tag $FRONTEND_IMAGE:$IMAGE_TAG $HARBOR_URL_TAG/$HARBOR_PROJECT/$FRONTEND_IMAGE:$IMAGE_TAG
     - docker login $HARBOR_URL -u $HARBOR_USER -p $HARBOR_PASSWORD
     - docker push $HARBOR_URL/$HARBOR_PROJECT/$FRONTEND_IMAGE:$IMAGE_TAG
 
@@ -23,7 +23,7 @@ build_backend:
   script:
     - echo "Сборка backend контейнера..."
     - docker build -t $BACKEND_IMAGE:$IMAGE_TAG ./backend
-    - docker tag $BACKEND_IMAGE:$IMAGE_TAG $HARBOR_URL/$HARBOR_PROJECT/$BACKEND_IMAGE:$IMAGE_TAG
+    - docker tag $BACKEND_IMAGE:$IMAGE_TAG $HARBOR_URL_TAG/$HARBOR_PROJECT/$BACKEND_IMAGE:$IMAGE_TAG
     - docker login $HARBOR_URL -u $HARBOR_USER -p $HARBOR_PASSWORD
     - docker push $HARBOR_URL/$HARBOR_PROJECT/$BACKEND_IMAGE:$IMAGE_TAG
 
