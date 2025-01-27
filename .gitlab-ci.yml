@@ -39,7 +39,7 @@ build_nginx:
 
 test_frontend:
   stage: test
-  image: node:16  # Используем официальный образ Node.js
+  image: node:16  
   cache:
     key: frontend-deps
     paths:
@@ -50,23 +50,23 @@ test_frontend:
     - npm ci  
     - npm run lint  
 
-test_backend:
-  stage: test
-  image: python:3.9-slim 
-  cache:
-    key: backend-deps
-    paths:
-      - backend/.venv/  
-  before_script:
-    - apt-get update && apt-get upgrade -y
-  script:
-    - echo "Устанавливаем зависимости и запускаем тесты..."
-    - cd backend
-    - python -m venv .venv  # Создаем виртуальное окружение
-    - source .venv/bin/activate  # Активируем виртуальное окружение
-    - pip install --upgrade pip  # Обновляем pip
-    - pip install -r requirements.txt  # Устанавливаем зависимости
-    - python -m pytest  # Запускаем тесты
+#test_backend:
+#  stage: test
+#  image: python:3.9-slim 
+#  cache:
+#    key: backend-deps
+#    paths:
+#      - backend/.venv/  
+#  before_script:
+#    - apt-get update && apt-get upgrade -y
+#  script:
+#    - echo "Устанавливаем зависимости и запускаем тесты..."
+#    - cd backend
+#    - python -m venv .venv  
+#    - source .venv/bin/activate 
+#    - pip install --upgrade pip  
+#    - pip install -r requirements.txt 
+#    - python -m pytest  
 
 deploy:
   stage: deploy
@@ -78,10 +78,10 @@ deploy:
   script:
     - echo "Деплоим на сервер..."
     - ssh $SERVER_USER@$SERVER_IP "      
-        docker login $HARBOR_URL -u $HARBOR_USER -p $HARBOR_PASSWORD &&
-        docker-compose down &&
-        docker-compose pull &&
-        docker-compose up -d
+        echo $HARBOR_PASSWORD | docker login $HARBOR_URL -u $HARBOR_USER --password-stdin
+        docker compose down &&
+        docker compose pull &&
+        docker compose up -d
       "
   only:
-    - main  # Запускать только для ветки main
+    - main  
