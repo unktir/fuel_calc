@@ -2,32 +2,34 @@ version: '3.8'
 
 services:
   frontend:
-    build: ./frontend
+    build: harbor.ogsneaky.ru:8443/fuel_app/frontend:latest
     ports:
       - "3001:80"
     depends_on:
       - backend
 
   backend:
-    build: ./backend
+    build: harbor.ogsneaky.ru:8443/fuel_app/backend:latest
     ports:
       - "5000:5000"
     environment:
       - DATABASE_URL=postgresql://user:password@db:5432/fuel_db
     depends_on:
       - db
+    volumes:
+      - ./backend:/app
 
   db:
     image: postgres:13
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: MOuust2025
       POSTGRES_DB: fuel_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
   nginx:
-    build: ./nginx
+    build: harbor.ogsneaky.ru:8443/fuel_app/nginx:latest
     ports:
       - "8080:80"
     depends_on:
