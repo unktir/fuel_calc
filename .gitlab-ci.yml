@@ -47,14 +47,26 @@ test_frontend:
   script:
     - echo "Запускаем lint тест..."
     - cd frontend
-    - npm ci  # Устанавливаем зависимости
-    - npm run lint  # Запускаем lint-тест
+    - npm ci  
+    - npm run lint  
 
 test_backend:
   stage: test
+  image: python:3.9-slim 
+  cache:
+    key: backend-deps
+    paths:
+      - backend/.venv/  
+  before_script:
+    - apt-get update && apt-get upgrade -y
   script:
-    - echo "Запускаем backend pytest..."
-    - cd backend && pip install -r requirements.txt && python -m pytest
+    - echo "Устанавливаем зависимости и запускаем тесты..."
+    - cd backend
+    - python -m venv .venv  # Создаем виртуальное окружение
+    - source .venv/bin/activate  # Активируем виртуальное окружение
+    - pip install --upgrade pip  # Обновляем pip
+    - pip install -r requirements.txt  # Устанавливаем зависимости
+    - python -m pytest  # Запускаем тесты
 
 deploy:
   stage: deploy
