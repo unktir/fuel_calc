@@ -39,9 +39,16 @@ build_nginx:
 
 test_frontend:
   stage: test
+  image: node:16  # Используем официальный образ Node.js
+  cache:
+    key: frontend-deps
+    paths:
+      - frontend/node_modules/  # Кэшируем node_modules для ускорения последующих запусков
   script:
     - echo "Запускаем lint тест..."
-    - cd frontend && npm install && npm run lint
+    - cd frontend
+    - npm ci  # Устанавливаем зависимости
+    - npm run lint  # Запускаем lint-тест
 
 test_backend:
   stage: test
