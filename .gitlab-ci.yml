@@ -4,10 +4,7 @@ stages:
   - deploy
 
 variables:
-  FRONTEND_IMAGE: frontend
-  BACKEND_IMAGE: backend
-  NGINX_IMAGE: nginx
-  IMAGE_TAG: $CI_COMMIT_SHORT_SHA
+  IMAGE_TAG: latest
 
 build_frontend:
   stage: build
