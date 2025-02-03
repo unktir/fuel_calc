@@ -11,7 +11,7 @@ build_frontend:
   script:
     - echo "Сборка frontend контейнера..."
     - docker build -t frontend:$IMAGE_TAG ./frontend
-    - docker tag frontend:$IMAGE_TAG harbor.ogsneaky.ru:8443/$HARBOR_PROJECT/frontend:$IMAGE_TAG
+    - docker tag frontend:$IMAGE_TAG $HARBOR_URL/$HARBOR_PROJECT/frontend:$IMAGE_TAG
     - echo $HARBOR_PASSWORD | docker login $HARBOR_URL -u $HARBOR_USER --password-stdin
     - docker push $HARBOR_URL/$HARBOR_PROJECT/frontend:$IMAGE_TAG
 
@@ -86,5 +86,3 @@ deploy:
       docker compose pull &&
       docker compose up -d
       "
-  only:
-    - main
