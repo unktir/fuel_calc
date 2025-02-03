@@ -2,8 +2,7 @@
 FROM node:22.13.1-alpine AS build
 
 # Установка pnpm
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH" 
+RUN npm install -g pnpm
 
 # Устанавливаем рабочую директорию
 WORKDIR /app
@@ -12,7 +11,7 @@ WORKDIR /app
 COPY pnpm*.yaml .
 
 # Устанавливаем зависимости
-RUN npm update corepack && corepack enable && pnpm fetch --prod
+RUN pnpm install --frozen-lockfile
 
 # Копируем исходный код
 COPY . .
