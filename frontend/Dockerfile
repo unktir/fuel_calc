@@ -2,7 +2,7 @@
 FROM node:22.13.1-alpine AS build
 
 # Установка pnpm
-RUN npm install -g pnpm
+RUN npm install -g pnpm@latest-10
 
 # Устанавливаем рабочую директорию 
 WORKDIR /app
