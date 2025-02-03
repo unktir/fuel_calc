@@ -4,7 +4,7 @@ FROM node:22.13.1-alpine AS build
 # Установка pnpm
 RUN npm install -g pnpm
 
-# Устанавливаем рабочую директорию
+# Устанавливаем рабочую директорию 
 WORKDIR /app
 
 # Копируем package.json и package-lock.json
