@@ -3,8 +3,7 @@ FROM node:22.13.1-alpine AS build
 
 # Установка pnpm
 ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+ENV PATH="$PNPM_HOME:$PATH" 
 
 # Устанавливаем рабочую директорию
 WORKDIR /app
@@ -13,7 +12,7 @@ WORKDIR /app
 COPY pnpm*.yaml .
 
 # Устанавливаем зависимости
-RUN pnpm fetch --prod
+RUN npm update corepack && corepack enable && pnpm fetch --prod
 
 # Копируем исходный код
 COPY . .
