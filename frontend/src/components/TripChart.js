@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import './TripChart.css';  // Импортируем стили
@@ -36,6 +36,10 @@ const TripChart = ({ trips }) => {
       <Line data={data} options={options} />
     </div>
   );
+};
+
+TripChart.propTypes = {
+  trips: PropTypes.any
 };
 
 export default TripChart;
