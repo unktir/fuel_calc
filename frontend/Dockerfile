@@ -1,20 +1,25 @@
 # Этап сборки
-FROM node:16 AS build
+FROM node:22.13.1-alpine AS build
+
+# Установка pnpm
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
 # Устанавливаем рабочую директорию
 WORKDIR /app
 
 # Копируем package.json и package-lock.json
-COPY package*.json ./
+COPY pnpm*.yaml .
 
 # Устанавливаем зависимости
-RUN npm install
+RUN pnpm fetch --prod
 
 # Копируем исходный код
 COPY . .
 
 # Собираем приложение
-RUN npm run build
+RUN pnpm run build
 
 # Этап финального образа
 FROM nginx:alpine
