@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import TripChart from './components/TripChart';
+import TripChart from './components/TripChart.js';
 
 function App() {
   const [cars, setCars] = useState([]);
