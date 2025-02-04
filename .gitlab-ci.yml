@@ -45,7 +45,8 @@ test_frontend:
     - cd frontend
     - pnpm install
     - echo "Запускаем lint тест..."
-    - pnpm run lint
+    - pnpm run lint:ts
+    - pnpm run lint:scss
   cache:
     key:
       files:
