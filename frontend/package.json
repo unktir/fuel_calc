@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "prettier": "prettier . --write",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
@@ -38,6 +39,7 @@
     "eslint": "^9.19.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.4",
+    "prettier": "^3.4.2",
     "vite": "^6.0.11"
   },
   "packageManager": "pnpm@10.2.0+sha512.0d27364e0139c6aadeed65ada153135e0ca96c8da42123bd50047f961339dc7a758fc2e944b428f52be570d1bd3372455c1c65fa2e7aa0bfbf931190f9552001"
