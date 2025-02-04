@@ -1,3 +1,5 @@
+import 'shared/ui/assets/styles';
+
 export function App() {
   return (
     <>
