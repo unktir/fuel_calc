@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import TripChart from './components/TripChart.js';
+import TripChart from './components/TripChart.jsx';
 
 function App() {
   const [cars, setCars] = useState([]);
@@ -13,9 +13,10 @@ function App() {
   const [trips, setTrips] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/cars')
-      .then(response => setCars(response.data))
-      .catch(error => console.error(error));
+    axios
+      .get('/api/cars')
+      .then((response) => setCars(response.data))
+      .catch((error) => console.error(error));
   }, []);
 
   const handleSubmit = async (e) => {
@@ -33,7 +34,7 @@ function App() {
     <div>
       <h1>Список машин</h1>
       <ul>
-        {cars.map(car => (
+        {cars.map((car) => (
           <li key={car.name}>
             {car.name} - {car.fuel_consumption} л/100км
           </li>
@@ -47,8 +48,11 @@ function App() {
           onChange={(e) => setTripData({ ...tripData, car: e.target.value })}
         >
           <option value="">Выберите машину</option>
-          {cars.map(car => (
-            <option key={car.name} value={car.name}>
+          {cars.map((car) => (
+            <option
+              key={car.name}
+              value={car.name}
+            >
               {car.name}
             </option>
           ))}
@@ -57,13 +61,17 @@ function App() {
           type="number"
           placeholder="Расстояние (км)"
           value={tripData.distance}
-          onChange={(e) => setTripData({ ...tripData, distance: e.target.value })}
+          onChange={(e) =>
+            setTripData({ ...tripData, distance: e.target.value })
+          }
         />
         <input
           type="number"
           placeholder="Цена топлива (руб/л)"
           value={tripData.fuelPrice}
-          onChange={(e) => setTripData({ ...tripData, fuelPrice: e.target.value })}
+          onChange={(e) =>
+            setTripData({ ...tripData, fuelPrice: e.target.value })
+          }
         />
         <button type="submit">Рассчитать</button>
       </form>
