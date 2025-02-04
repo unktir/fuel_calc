@@ -35,9 +35,8 @@ build_nginx:
 
 test_frontend:
   stage: test
-  image: node:22.13.1-alpine
+  image: harbor.ogsneaky.ru:8443/fuel_app/frontend/node:18.17.1
   before_script:
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - corepack enable
     - corepack prepare pnpm@latest-10 --activate
     - pnpm config set store-dir .pnpm-store
