@@ -1,0 +1,4 @@
+export default {
+  '*.{ts,tsx}': ['prettier --list-different', 'eslint'],
+  '*': ['prettier . --write'],
+};

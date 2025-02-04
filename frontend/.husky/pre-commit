@@ -1,2 +1,2 @@
 cd frontend
-pnpm lint-staged
+NODE_OPTIONS="--loader ts-node/esm" pnpm lint-staged

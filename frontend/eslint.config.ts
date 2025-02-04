@@ -1,11 +1,13 @@
-import globals from 'globals';
 import js from '@eslint/js';
+import ts from 'typescript-eslint';
 import eslintPluginReact from 'eslint-plugin-react';
 import eslintPluginJsxA11y from 'eslint-plugin-jsx-a11y';
 // TODO: Install eslint-plugin-react-hooks when https://github.com/facebook/react/issues/28313 is resolved
+import globals from 'globals';
 
-export default [
+export default ts.config(
   js.configs.recommended,
+  ts.configs.recommended,
   eslintPluginReact.configs.flat.recommended,
   eslintPluginReact.configs.flat['jsx-runtime'],
   eslintPluginJsxA11y.flatConfigs.recommended,
@@ -18,4 +20,4 @@ export default [
     },
     settings: { react: { version: 'detect' } },
   },
-];
+);
