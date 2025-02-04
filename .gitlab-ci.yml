@@ -47,7 +47,6 @@ test_frontend:
     - echo "Запускаем lint тест..."
     - pnpm run lint
   cache:
-    cache:
     key:
       files:
         - pnpm-lock.yaml
