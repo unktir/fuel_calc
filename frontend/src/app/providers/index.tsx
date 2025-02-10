@@ -1,12 +1,13 @@
 import { Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router';
 
+import { Spinner } from '@radix-ui/themes';
 import { Layout } from 'pages/layout';
 import { MainPage } from 'pages/main';
 
 function Provider() {
   return (
-    <Suspense fallback="">
+    <Suspense fallback={<Spinner size="3" />}>
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
