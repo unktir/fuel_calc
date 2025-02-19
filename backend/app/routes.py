@@ -11,7 +11,7 @@ def get_cars():
 def create_trip():
     data = request.json
     cars = load_cars()
-    selected_car = next((car for car in cars if car['name'] == data['car']), None)
+    selected_car = next((car for car in cars if car['id'] == data['car_id']), None)
     
     if not selected_car:
         return jsonify({"error": "Машина не найдена"}), 404

@@ -1,20 +1,24 @@
 # Этап сборки
-FROM node:16 AS build
+FROM node:22.13.1-alpine AS build
 
-# Устанавливаем рабочую директорию
+# Установка pnpm
+RUN npm install -g pnpm@latest-10
+
+# Устанавливаем рабочую директорию 
 WORKDIR /app
 
 # Копируем package.json и package-lock.json
-COPY package*.json ./
+COPY pnpm*.yaml /app
+COPY package*.json /app
 
 # Устанавливаем зависимости
-RUN npm install
+RUN pnpm install
 
 # Копируем исходный код
 COPY . .
 
 # Собираем приложение
-RUN npm run build
+RUN pnpm run build
 
 # Этап финального образа
 FROM nginx:alpine
