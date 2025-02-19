@@ -20,7 +20,7 @@ services:
       - ./backend:/app
 
   db:
-    image: postgres:13
+    image: harbor.ogsneaky.ru:8443/fuel_app/postgresql:13.18-19
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: MOuust2025

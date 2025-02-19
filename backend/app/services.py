@@ -7,7 +7,7 @@ def load_cars():
 
 def calculate_fuel_consumption(car, trip_data):
     distance = float(trip_data['distance'])
-    fuel_price = float(trip_data['fuelPrice'])
+    fuel_price = float(trip_data['fuel_cost'])
     fuel_consumption = car['fuel_consumption']
     
     total_fuel = (fuel_consumption * distance) / 100

@@ -1,0 +1,5 @@
+{
+  "*.{ts,tsx}": ["prettier --list-different", "eslint"],
+  "*.scss": ["prettier --list-different", "stylelint"],
+  "*": ["prettier . --write"]
+}
