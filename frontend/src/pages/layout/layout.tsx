@@ -7,7 +7,10 @@ import { MainFooter } from 'widgets/main-footer';
 
 const Layout = () => {
   return (
-    <Theme asChild>
+    <Theme
+      asChild
+      // appearance="dark"
+    >
       <Flex direction="column">
         <MainHeader />
         <Suspense fallback={<Spinner />}>

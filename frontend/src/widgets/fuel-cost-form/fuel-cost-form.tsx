@@ -1,6 +1,10 @@
 import { AxiosResponse } from 'axios';
-import { useEffect, useState } from 'react';
-import type { CarType } from './fuel-cost-form.type';
+import { FormEvent, useEffect, useState } from 'react';
+import type {
+  CarFormType,
+  CarType,
+  FuelCostFormType,
+} from './fuel-cost-form.type';
 import api from 'shared/api';
 import {
   Box,
@@ -14,15 +18,177 @@ import {
   Card,
   Inset,
   Strong,
+  IconButton,
+  Popover,
+  DataList,
 } from '@radix-ui/themes';
 import { Form } from 'radix-ui';
 import { Icon } from 'shared/ui/icon';
 
 import './fuel-cost-form.scss';
 
-function FuelCostForm() {
+// TODO: использовать когда будет готово API
+// function LoadingCarCard() {
+//   return (
+//     <Box maxWidth="300px">
+//       <Card size="2">
+//         <Inset
+//           clip="padding-box"
+//           side="top"
+//           pb="current"
+//         >
+//           <Skeleton
+//             width="100%"
+//             height="140px"
+//           />
+//         </Inset>
+//         <Heading
+//           as="h4"
+//           size="3"
+//         >
+//           <Skeleton>Марка и модель автомобиля</Skeleton>
+//         </Heading>
+//         <Text
+//           size="2"
+//           as="p"
+//         >
+//           <Skeleton>Расход топлива: x (л/100 км)</Skeleton>
+//         </Text>
+//         <Text
+//           size="2"
+//           as="p"
+//         >
+//           <Skeleton>Объём топливного бака: x (л)</Skeleton>
+//         </Text>
+//       </Card>
+//     </Box>
+//   );
+// }
+
+function CarCard({ car }: { car: CarType }) {
+  return (
+    <Box maxWidth="300px">
+      <Card size="2">
+        <Box
+          position="absolute"
+          right="4"
+        >
+          <Popover.Root>
+            <Popover.Trigger>
+              <IconButton
+                variant="ghost"
+                size="1"
+              >
+                <Icon.InfoCircled />
+              </IconButton>
+            </Popover.Trigger>
+            <Popover.Content
+              size="1"
+              maxWidth="300px"
+            >
+              <DataList.Root size="1">
+                <DataList.Item align="center">
+                  <DataList.Label minWidth="88px">Название</DataList.Label>
+                  <DataList.Value>{car.name}</DataList.Value>
+                </DataList.Item>
+                <DataList.Item>
+                  <DataList.Label minWidth="88px">
+                    Расход топлива
+                  </DataList.Label>
+                  <DataList.Value>
+                    {car.fuel_consumption} л/100 км
+                  </DataList.Value>
+                </DataList.Item>
+                <DataList.Item>
+                  <DataList.Label minWidth="88px">Тип двигателя</DataList.Label>
+                  <DataList.Value>{car.engine_type}</DataList.Value>
+                </DataList.Item>
+                <DataList.Item>
+                  <DataList.Label minWidth="88px">
+                    Объём топливного бака
+                  </DataList.Label>
+                  <DataList.Value>{car.tank_capacity} л</DataList.Value>
+                </DataList.Item>
+                <DataList.Item>
+                  <DataList.Label minWidth="88px">Производитель</DataList.Label>
+                  <DataList.Value>{car.manufacturer}</DataList.Value>
+                </DataList.Item>
+                <DataList.Item>
+                  <DataList.Label minWidth="88px">
+                    Год производства
+                  </DataList.Label>
+                  <DataList.Value>{car.year} г</DataList.Value>
+                </DataList.Item>
+              </DataList.Root>
+            </Popover.Content>
+          </Popover.Root>
+        </Box>
+        <Inset
+          clip="padding-box"
+          side="top"
+          pb="current"
+        >
+          {
+            // TODO: Как будет готово API переделать
+            /* <img
+              src="shared/ui/assets/car.svg"
+              alt="car"
+              style={{
+                display: 'block',
+                objectFit: 'cover',
+                width: '100%',
+                height: 140,
+                backgroundColor: 'var(--gray-5)',
+              }} 
+              />*/
+          }
+          {
+            // TODO:
+          }
+          <Flex
+            width="100%"
+            height="140px"
+            justify="center"
+            align="center"
+            style={{
+              color: 'var(--gray-7)',
+              background: 'var(--gray-3)',
+            }}
+          >
+            <Icon.Car
+              width="60px"
+              height="60px"
+            />
+          </Flex>
+        </Inset>
+        <Box>
+          <Heading
+            as="h4"
+            size="3"
+          >
+            {car.name}
+          </Heading>
+          <Text
+            size="2"
+            as="p"
+          >
+            Расход топлива: <Strong>{car.fuel_consumption} л/100 км</Strong>
+          </Text>
+          <Text
+            size="2"
+            as="p"
+          >
+            Объём топливного бака: <Strong>{car.tank_capacity} л </Strong>
+          </Text>
+        </Box>
+      </Card>
+    </Box>
+  );
+}
+
+function FuelCostForm({ onSubmit }: FuelCostFormType) {
   const [cars, setCars] = useState<CarType[]>([]);
-  const [carID, setCarID] = useState<string>('');
+  const [carID, setCarID] = useState<number>();
 
   const getCars = async () => {
     try {
@@ -33,12 +199,24 @@ function FuelCostForm() {
     }
   };
 
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const data: CarFormType = {
+      car_id: carID,
+      distance: Number(formData.get('distance')),
+      fuel_cost: Number(formData.get('fuel_cost')),
+    };
+
+    onSubmit(data);
+  };
+
   useEffect(() => {
     getCars();
   }, []);
 
   return (
-    <Form.Root>
+    <Form.Root onSubmit={handleSubmit}>
       <Flex
         direction="column"
         gap="6"
@@ -53,45 +231,22 @@ function FuelCostForm() {
           >
             Список машин
           </Heading>
-          <Box maxWidth="300px">
-            <Card size="2">
-              <Inset
-                clip="padding-box"
-                side="top"
-                pb="current"
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1617050318658-a9a3175e34cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
-                  alt="Car"
-                  style={{
-                    display: 'block',
-                    objectFit: 'cover',
-                    width: '100%',
-                    height: 140,
-                    backgroundColor: 'var(--gray-5)',
-                  }}
-                />
-              </Inset>
-              <Text
-                as="p"
-                size="3"
-              >
-                <Strong>{cars?.[+carID]?.name}</Strong>
-              </Text>
-            </Card>
-          </Box>
-          <Form.Field name="car">
+          {
+            // TODO: Как будет готово API переделать
+            carID === undefined ? null : <CarCard car={cars[carID]} />
+          }
+          <Form.Field name="car_id">
             <Form.Control
               asChild
               required
             >
-              <Select.Root onValueChange={(carID) => setCarID(carID)}>
+              <Select.Root onValueChange={(value) => setCarID(Number(value))}>
                 <Select.Trigger placeholder="Выберите машину" />
                 <Select.Content>
-                  {cars?.map((car, index) => (
+                  {cars?.map((car) => (
                     <Select.Item
-                      key={index}
-                      value={`${index}`}
+                      key={car.id}
+                      value={`${car.id}`}
                     >
                       {car.name}
                     </Select.Item>
