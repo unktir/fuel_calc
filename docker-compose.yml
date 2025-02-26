@@ -2,39 +2,46 @@ version: '3.8'
 
 services:
   frontend:
-    build: harbor.ogsneaky.ru:8443/fuel_app/frontend:latest
+    build: fuel_app_frontend
     ports:
-      - "3001:80"
+      - '3001:3001'
+    environment:
+      - VITE_PORT=3001
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: ["pnpm", "run", "dev"]
     depends_on:
       - backend
 
   backend:
-    build: harbor.ogsneaky.ru:8443/fuel_app/backend:latest
+    image: fuel_app_backend
     ports:
-      - "5000:5000"
-    environment:
-      - DATABASE_URL=postgresql://user:password@db:5432/fuel_db
-    depends_on:
-      - db
+      - '5000:5000'
     volumes:
       - ./backend:/app
-
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://admin:MOuust2025@db:5432/fuel_db
   db:
     image: harbor.ogsneaky.ru:8443/fuel_app/postgresql:13.18-19
+    container_name: fuel_db
+    restart: always
+    ports:
+      - '5432:5432'
     environment:
+      POSTGRES_DB: fuel_db
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: MOuust2025
-      POSTGRES_DB: fuel_db
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-
+      - pgdata:/var/lib/postgresql/data
   nginx:
     build: harbor.ogsneaky.ru:8443/fuel_app/nginx:latest
     ports:
-      - "8080:80"
+      - '8080:80'
     depends_on:
       - frontend
       - backend
-
 volumes:
-  postgres_data:
+  pgdata:

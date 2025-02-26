@@ -1,14 +1,34 @@
-FROM python:3.9-slim
+FROM python:3.10-slim as compiler
 
-WORKDIR /app
+ENV PYTHONUNBUFFERED 1
 
-# Копируем requirements.txt и устанавливаем зависимости
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+WORKDIR /app/
 
-# Копируем остальные файлы
-COPY . .
+RUN python -m venv /opt/venv
 
+# Enable venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+COPY ./requirements.txt /app/requirements.txt
+
+RUN python -m pip install --upgrade pip &&\
+    python -m pip install --upgrade setuptools &&\
+    pip install -r requirements.txt
+
+FROM python:3.10-slim as runner
+
+WORKDIR /app/
+
+COPY --from=compiler /opt/venv /opt/venv
+
+# Enable venv
+
+ENV PATH="/opt/venv/bin:$PATH"
+
+COPY . /app/
+
+# Экспонируем порт
 EXPOSE 5000
 
-CMD ["python", "app.py"]
+# Запускаем сервер Django
+CMD ["python3", "manage.py", "runserver", "0.0.0.0:5000"]
