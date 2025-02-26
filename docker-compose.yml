@@ -20,6 +20,7 @@ services:
       - '5000:5000'
     volumes:
       - ./backend:/app
+
     depends_on:
       - db
     environment:
@@ -36,6 +37,7 @@ services:
       POSTGRES_PASSWORD: MOuust2025
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./pgdata:/var/lib/postgresql/data
   nginx:
     build: harbor.ogsneaky.ru:8443/fuel_app/nginx:latest
     ports:

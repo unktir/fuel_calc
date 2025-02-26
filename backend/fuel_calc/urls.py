@@ -14,6 +14,6 @@ router.register(r'cars', CarViewSet)
 urlpatterns = [
     path('register/', views.register, name='register'),
     path('api/', include(router.urls)),
-    path('calculate_fuel/', fuel_calculation, name='calculate_fuel'),
-    path('trip_history/<int:car_id>/', trip_history, name='trip_history'),
+    path('api/calculate_fuel/', fuel_calculation, name='calculate_fuel'),
+    path('api/trip_history/<int:car_id>/', trip_history, name='trip_history'),
 ]

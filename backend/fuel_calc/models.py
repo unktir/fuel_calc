@@ -24,6 +24,7 @@ class Car(models.Model):
     tank_capacity = models.FloatField(default=0.0)
     manufacturer = models.CharField(max_length=100, default='Неизвестно')
     year = models.IntegerField()
+    image = models.ImageField(upload_to='car_images/', null=True, blank=True)
 
     def __str__(self):
         return self.name
