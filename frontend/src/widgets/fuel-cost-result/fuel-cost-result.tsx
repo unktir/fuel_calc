@@ -1,58 +1,63 @@
-import { Box, Flex, Heading } from '@radix-ui/themes';
-import { Line } from 'react-chartjs-2';
+import { Box, Card, DataList, Flex, Heading } from '@radix-ui/themes';
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
   Tooltip,
-  Legend,
-  ChartOptions,
-} from 'chart.js';
-import type { FuelCostResultType } from './fuel-cost-result.type';
+  CartesianGrid,
+  TooltipProps,
+  ResponsiveContainer,
+} from 'recharts';
+import {
+  type TripType,
+  type FuelCostResultType,
+} from './fuel-cost-result.type';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-);
+const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload as TripType;
+    return (
+      <Card>
+        <DataList.Root size="1">
+          <DataList.Item align="center">
+            <DataList.Label minWidth="88px">Машина</DataList.Label>
+            <DataList.Value>{data.car}</DataList.Value>
+          </DataList.Item>
+          <DataList.Item>
+            <DataList.Label minWidth="88px">Стоимость поездки</DataList.Label>
+            <DataList.Value>{data.total_cost} ₽</DataList.Value>
+          </DataList.Item>
+          <DataList.Item>
+            <DataList.Label minWidth="88px">Топлива необходимо</DataList.Label>
+            <DataList.Value>{data.fuel_needed} л</DataList.Value>
+          </DataList.Item>
+          <DataList.Item>
+            <DataList.Label minWidth="88px">Кол-во дозаправок</DataList.Label>
+            <DataList.Value>{data.refuels}</DataList.Value>
+          </DataList.Item>
+        </DataList.Root>
+      </Card>
+    );
+  }
+  return null;
+};
 
 function FuelCostResult({ trips }: FuelCostResultType) {
-  const data = {
-    labels: trips.map((_, index) => `Поездка ${index + 1}`),
-    datasets: [
-      {
-        label: 'Расход топлива (л)',
-        data: trips.map((trip) => trip.total_fuel),
-        borderColor: 'rgba(75, 192, 192, 1)',
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-      },
-    ],
-  };
+  // TODO: Как будет исправлено API переделать
+  // const [data, setData] = useState([]);
 
-  const options: ChartOptions<'line'> = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'История поездок',
-      },
-    },
-  };
+  // useEffect(() => {
+  //   fetch(`/api/trip_history/${carId}/`)
+  //     .then((res) => res.json())
+  //     .then((data) => setData(data));
+  // }, [carId]);
 
   return (
     <Flex
       direction="column"
       flexGrow="1"
+      gap="6"
     >
       <Heading
         as="h2"
@@ -60,12 +65,30 @@ function FuelCostResult({ trips }: FuelCostResultType) {
       >
         Результаты расчёта
       </Heading>
-      <Box>
-        <Line
-          data={data}
-          options={options}
-        />
-      </Box>
+      <Flex>
+        <Box
+          flexGrow="1"
+          width="100%"
+          height="400px"
+        >
+          <ResponsiveContainer
+            width="100%"
+            height="100%"
+          >
+            <LineChart data={trips}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="car" />
+              <YAxis />
+              <Tooltip content={<CustomTooltip />} />
+              <Line
+                type="monotone"
+                dataKey="total_cost"
+                stroke="#8884d8"
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </Box>
+      </Flex>
     </Flex>
   );
 }
