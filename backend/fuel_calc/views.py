@@ -27,11 +27,6 @@ class CarViewSet(viewsets.ModelViewSet):
     queryset = Car.objects.all()
     serializer_class = CarSerializer
 
-class TripSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Trip
-        fields = '__all__'
-
 @swagger_auto_schema(
     method='get',
     manual_parameters=[
