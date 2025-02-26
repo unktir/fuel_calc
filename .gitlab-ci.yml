@@ -103,3 +103,4 @@ deploy:
       "
   only:
     - main
+    - manual
