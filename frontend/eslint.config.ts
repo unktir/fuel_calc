@@ -13,6 +13,7 @@ export default ts.config(
   eslintPluginReact.configs.flat['jsx-runtime'],
   eslintPluginJsxA11y.flatConfigs.recommended,
   eslintConfigPrettier,
+  { ignores: ['build/'] },
   {
     languageOptions: {
       globals: {

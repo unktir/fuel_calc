@@ -128,10 +128,25 @@ function CarCard({ car }: { car: CarType }) {
           side="top"
           pb="current"
         >
-          {
-            // TODO: Как будет готово API переделать
-            /* <img
-              src="shared/ui/assets/car.svg"
+          {car.image === undefined ? (
+            <Flex
+              width="100%"
+              height="140px"
+              justify="center"
+              align="center"
+              style={{
+                color: 'var(--gray-7)',
+                background: 'var(--gray-3)',
+              }}
+            >
+              <Icon.Car
+                width="60px"
+                height="60px"
+              />
+            </Flex>
+          ) : (
+            <img
+              src={car.image}
               alt="car"
               style={{
                 display: 'block',
@@ -139,27 +154,9 @@ function CarCard({ car }: { car: CarType }) {
                 width: '100%',
                 height: 140,
                 backgroundColor: 'var(--gray-5)',
-              }} 
-              />*/
-          }
-          {
-            // TODO:
-          }
-          <Flex
-            width="100%"
-            height="140px"
-            justify="center"
-            align="center"
-            style={{
-              color: 'var(--gray-7)',
-              background: 'var(--gray-3)',
-            }}
-          >
-            <Icon.Car
-              width="60px"
-              height="60px"
+              }}
             />
-          </Flex>
+          )}
         </Inset>
         <Box>
           <Heading
@@ -188,6 +185,7 @@ function CarCard({ car }: { car: CarType }) {
 
 function FuelCostForm({ onSubmit }: FuelCostFormType) {
   const [cars, setCars] = useState<CarType[]>([]);
+  const [car, setCar] = useState<CarType>();
   const [carID, setCarID] = useState<number>();
 
   const getCars = async () => {
@@ -204,8 +202,8 @@ function FuelCostForm({ onSubmit }: FuelCostFormType) {
     const formData = new FormData(event.currentTarget);
     const data: CarFormType = {
       car_id: carID,
-      distance: Number(formData.get('distance')),
-      fuel_cost: Number(formData.get('fuel_cost')),
+      distance_km: Number(formData.get('distance')),
+      fuel_price: Number(formData.get('fuel_cost')),
     };
 
     onSubmit(data);
@@ -215,12 +213,22 @@ function FuelCostForm({ onSubmit }: FuelCostFormType) {
     getCars();
   }, []);
 
+  useEffect(() => {
+    setCar(cars.find((x) => x.id === carID));
+  }, [carID]);
+
   return (
     <Form.Root onSubmit={handleSubmit}>
       <Flex
         direction="column"
         gap="6"
       >
+        <Heading
+          as="h2"
+          size="5"
+        >
+          Форма для расчёта
+        </Heading>
         <Flex
           direction="column"
           gap="3"
@@ -233,7 +241,7 @@ function FuelCostForm({ onSubmit }: FuelCostFormType) {
           </Heading>
           {
             // TODO: Как будет готово API переделать
-            carID === undefined ? null : <CarCard car={cars[carID]} />
+            car === undefined ? null : <CarCard car={car} />
           }
           <Form.Field name="car_id">
             <Form.Control

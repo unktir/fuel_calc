@@ -4,8 +4,7 @@ export interface FuelCostResultType {
 
 export interface TripType {
   car?: string;
-  distance?: number;
-  total_fuel?: number;
+  fuel_needed?: number;
   total_cost?: number;
-  recommendations?: string;
+  refuels?: number;
 }

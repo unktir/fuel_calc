@@ -12,10 +12,12 @@ export interface CarType {
   tank_capacity?: number;
   manufacturer?: string;
   year?: number;
+  image?: string;
+  image_url?: string;
 }
 
 export interface CarFormType {
   car_id?: number;
-  distance?: number;
-  fuel_cost?: number;
+  distance_km?: number;
+  fuel_price?: number;
 }

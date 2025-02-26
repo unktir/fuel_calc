@@ -22,7 +22,7 @@ function MainProjectPage() {
 
   const getTrip = async (formData: CarFormType) => {
     try {
-      const response = await api.post('/trips', formData);
+      const response = await api.get('/calculate_fuel', { params: formData });
       setTripsData([...tripsData, response.data]);
       setTripDataLoader(true);
     } catch (error) {
