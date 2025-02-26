@@ -3,9 +3,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from .forms import CustomUserCreationForm
-from rest_framework import viewsets
-from .models import Car
-from .serializers import CarSerializer
+from rest_framework import viewsets, serializers
+from .models import Car, Trip
+from .serializers import CarSerializer, TripSerializer
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from rest_framework.response import Response
@@ -27,6 +27,11 @@ class CarViewSet(viewsets.ModelViewSet):
     queryset = Car.objects.all()
     serializer_class = CarSerializer
 
+class TripSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trip
+        fields = '__all__'
+
 @swagger_auto_schema(
     method='get',
     manual_parameters=[
@@ -47,3 +52,9 @@ def fuel_calculation(request):
 
     result = calculate_fuel(car_id, distance_km, fuel_price)
     return Response(result)
+
+@api_view(['GET'])
+def trip_history(request, car_id):
+    trips = Trip.objects.filter(car_id=car_id).order_by('date')
+    serializer = TripSerializer(trips, many=True)
+    return Response(serializer.data)
