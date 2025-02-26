@@ -14,6 +14,9 @@ build_frontend:
     - docker tag frontend:$IMAGE_TAG $HARBOR_URL/$HARBOR_PROJECT/frontend:$IMAGE_TAG
     - echo $HARBOR_PASSWORD | docker login $HARBOR_URL -u $HARBOR_USER --password-stdin
     - docker push $HARBOR_URL/$HARBOR_PROJECT/frontend:$IMAGE_TAG
+  
+  only:
+    - manual
 
 build_backend:
   stage: build
@@ -23,7 +26,8 @@ build_backend:
     - docker tag backend:$IMAGE_TAG $HARBOR_URL_TAG/$HARBOR_PROJECT/backend:$IMAGE_TAG
     - echo $HARBOR_PASSWORD | docker login $HARBOR_URL -u $HARBOR_USER --password-stdin
     - docker push $HARBOR_URL/$HARBOR_PROJECT/backend:$IMAGE_TAG
-
+  only:
+    - manual
 build_nginx:
   stage: build
   script:
@@ -32,7 +36,8 @@ build_nginx:
     - docker tag nginx:$IMAGE_TAG $HARBOR_URL_TAG/$HARBOR_PROJECT/nginx:$IMAGE_TAG
     - echo $HARBOR_PASSWORD | docker login $HARBOR_URL -u $HARBOR_USER --password-stdin
     - docker push $HARBOR_URL/$HARBOR_PROJECT/nginx:$IMAGE_TAG
-
+  only:
+    - manual
 test_frontend:
   stage: test
   image: harbor.ogsneaky.ru:8443/fuel_app/frontend/node:18.17.1
@@ -53,6 +58,8 @@ test_frontend:
         - pnpm-lock.yaml
     paths:
       - .pnpm-store
+  only:
+    - manual
 
 #test_backend:
 #  stage: test
