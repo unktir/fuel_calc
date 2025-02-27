@@ -8,13 +8,15 @@ import {
   Avatar,
   Text,
 } from '@radix-ui/themes';
+import { useEffect, useState } from 'react';
+import api from 'shared/api';
 
 interface StaffType {
-  full_name: {
-    last_name: string;
-    first_name: string;
-  };
+  id?: number;
+  last_name: string;
+  first_name: string;
   position: string;
+  photo?: string;
 }
 
 function StaffCard({ staff }: { staff: StaffType }) {
@@ -27,9 +29,8 @@ function StaffCard({ staff }: { staff: StaffType }) {
         <Avatar
           size="5"
           radius="full"
-          fallback={
-            staff.full_name.last_name[0] + staff.full_name.first_name[0]
-          }
+          fallback={staff.last_name[0] + staff.first_name[0]}
+          src={staff.photo}
         />
         <Box>
           <Text
@@ -37,7 +38,7 @@ function StaffCard({ staff }: { staff: StaffType }) {
             size="2"
             weight="bold"
           >
-            {staff.full_name.last_name + staff.full_name.first_name}
+            {staff.last_name} {staff.first_name}
           </Text>
           <Text
             as="div"
@@ -53,28 +54,20 @@ function StaffCard({ staff }: { staff: StaffType }) {
 }
 
 function ContactsPage() {
-  const staff_data = [
-    {
-      full_name: { last_name: 'Рябов', first_name: 'Денис' },
-      position: 'DevOps, Backend programmer',
-    },
-    {
-      full_name: { last_name: 'Федорищев', first_name: 'Валерий' },
-      position: 'Frontend lead programmer',
-    },
-    {
-      full_name: { last_name: 'Федорищев', first_name: 'Сергей' },
-      position: 'Backend programmer',
-    },
-    {
-      full_name: { last_name: 'Ахметзянов', first_name: 'Роман' },
-      position: 'Designer, Frontend programmer',
-    },
-    {
-      full_name: { last_name: 'Ямгеев', first_name: 'Алмаз' },
-      position: 'Docs, Backend programmer',
-    },
-  ] satisfies StaffType[];
+  const [devs, setDevs] = useState<StaffType[]>([]);
+
+  const getDevs = async () => {
+    try {
+      const response = await api.get('/developers');
+      setDevs(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    getDevs();
+  }, []);
 
   return (
     <Container
@@ -98,46 +91,64 @@ function ContactsPage() {
             rows="3"
             width="auto"
           >
-            <Box
-              gridColumnStart="1"
-              gridColumnEnd="1"
-              gridRowStart="1"
-              gridRowEnd="1"
-            >
-              <StaffCard staff={staff_data[0]} />
-            </Box>
-            <Box
-              gridColumnStart="3"
-              gridColumnEnd="3"
-              gridRowStart="1"
-              gridRowEnd="1"
-            >
-              <StaffCard staff={staff_data[1]} />
-            </Box>
-            <Box
-              gridColumnStart="2"
-              gridColumnEnd="2"
-              gridRowStart="2"
-              gridRowEnd="2"
-            >
-              <StaffCard staff={staff_data[2]} />
-            </Box>
-            <Box
-              gridColumnStart="1"
-              gridColumnEnd="1"
-              gridRowStart="3"
-              gridRowEnd="3"
-            >
-              <StaffCard staff={staff_data[3]} />
-            </Box>
-            <Box
-              gridColumnStart="3"
-              gridColumnEnd="3"
-              gridRowStart="3"
-              gridRowEnd="3"
-            >
-              <StaffCard staff={staff_data[4]} />
-            </Box>
+            {
+              // TODO: Переделать
+              /* {devs.map((staff, index) => (
+              <Box
+                key={staff.id}
+                gridRowStart={(Math.floor(index / 2) + 1).toString()}
+                gridRowEnd={(Math.floor(index / 2) + 1).toString()}
+                gridColumnStart={(index % 2 === 0 ? 1 : 3).toString()}
+                gridColumnEnd={(index % 2 === 0 ? 1 : 3).toString()}
+              >
+                <StaffCard staff={staff} />
+              </Box>
+            ))} */
+            }
+            {devs.length === 0 ? null : (
+              <>
+                <Box
+                  gridRowStart="1"
+                  gridRowEnd="1"
+                  gridColumnStart="1"
+                  gridColumnEnd="1"
+                >
+                  <StaffCard staff={devs[0]} />
+                </Box>
+                <Box
+                  gridRowStart="1"
+                  gridRowEnd="1"
+                  gridColumnStart="3"
+                  gridColumnEnd="3"
+                >
+                  <StaffCard staff={devs[1]} />
+                </Box>
+                <Box
+                  gridRowStart="2"
+                  gridRowEnd="2"
+                  gridColumnStart="2"
+                  gridColumnEnd="2"
+                >
+                  <StaffCard staff={devs[2]} />
+                </Box>
+                <Box
+                  gridRowStart="3"
+                  gridRowEnd="3"
+                  gridColumnStart="1"
+                  gridColumnEnd="1"
+                >
+                  <StaffCard staff={devs[3]} />
+                </Box>
+                <Box
+                  gridRowStart="3"
+                  gridRowEnd="3"
+                  gridColumnStart="3"
+                  gridColumnEnd="3"
+                >
+                  <StaffCard staff={devs[4]} />
+                </Box>
+              </>
+            )}
           </Grid>
         </Section>
       </main>
