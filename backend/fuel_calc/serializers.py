@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Car, Trip
+from .models import Car, Trip, Developer
 
 class CarSerializer(serializers.ModelSerializer):
     image_url = serializers.SerializerMethodField()
@@ -16,4 +16,9 @@ class CarSerializer(serializers.ModelSerializer):
 class TripSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trip
+        fields = '__all__'
+
+class DeveloperSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Developer
         fields = '__all__'

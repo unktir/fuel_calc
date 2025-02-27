@@ -6,21 +6,21 @@ WORKDIR /app
 # Устанавливаем pnpm и зависимости
 RUN npm install -g pnpm@latest-10
 COPY pnpm*.yaml package*.json ./
+COPY . .
 RUN pnpm install
 
 # Копируем исходный код и собираем проект
-COPY . .
 RUN pnpm run build
 
 # Финальный образ с Nginx
 FROM nginx:alpine
 
-# Копируем сборку фронтенда
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/build /app/build
+COPY --from=build /app/node_modules /app/node_modules
 
 # Копируем Nginx конфиг
 COPY nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 80
+EXPOSE 80 
 
 CMD ["nginx", "-g", "daemon off;"]

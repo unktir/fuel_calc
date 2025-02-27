@@ -5,12 +5,10 @@ services:
     build: fuel_app_frontend
     ports:
       - '3001:3001'
-    environment:
-      - VITE_PORT=3001
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    command: ["pnpm", "run", "dev"]
+    command: ["./install.sh"]
     depends_on:
       - backend
 
@@ -37,7 +35,7 @@ services:
       POSTGRES_PASSWORD: MOuust2025
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./pgdata:/var/lib/postgresql/data
+  
   nginx:
     build: harbor.ogsneaky.ru:8443/fuel_app/nginx:latest
     ports:
@@ -45,5 +43,6 @@ services:
     depends_on:
       - frontend
       - backend
+
 volumes:
   pgdata:

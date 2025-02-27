@@ -4,8 +4,8 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from .forms import CustomUserCreationForm
 from rest_framework import viewsets, serializers
-from .models import Car, Trip
-from .serializers import CarSerializer, TripSerializer
+from .models import Car, Trip, Developer
+from .serializers import CarSerializer, TripSerializer, DeveloperSerializer
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from rest_framework.response import Response
@@ -26,6 +26,10 @@ def register(request):
 class CarViewSet(viewsets.ModelViewSet):
     queryset = Car.objects.all()
     serializer_class = CarSerializer
+
+class DeveloperViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Developer.objects.all()
+    serializer_class = DeveloperSerializer
 
 @swagger_auto_schema(
     method='get',

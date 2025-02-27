@@ -16,6 +16,15 @@ class User(AbstractUser):
         blank=True
     )
 
+class Developer(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    position = models.CharField(max_length=100)
+    photo = models.ImageField(upload_to='developers/', null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
 
 class Car(models.Model):
     name = models.CharField(max_length=200, default='Неизвестно')
@@ -40,3 +49,4 @@ class FuelType(models.Model):
 
     def __str__(self):
         return self.name
+
