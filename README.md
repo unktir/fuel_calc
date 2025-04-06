@@ -1,5 +1,7 @@
 cd fuel_calc
 
+cp .env.template .env
+
 docker-compose up -d --build
 
 docker-compose exec backend python manage.py import_cars
